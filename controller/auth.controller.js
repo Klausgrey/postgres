@@ -1,0 +1,1 @@
+import { createTable } from "../models/auth.model.js";

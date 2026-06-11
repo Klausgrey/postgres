@@ -10,15 +10,26 @@ created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 )
 `;
 
-const createTable = async() => {
+export const createTable = async () => {
 	try {
-		await pool.query(queryText)
-		console.log("User created");
+		await pool.query(queryText);
+		console.log("Table created");
 	} catch (err) {
-		console.error(err)
-	} finally {
-		await pool.end()
+		console.error(err);
+		// } finally {
+		// 	await pool.end()
 	}
-}
+};
 
-createTable()
+export const createUser = async (username, email, password) => {
+	const result = await pool.query(
+			`INSERT INTO users (username, email, password) VALUES ($1, $2, $3) RETURNING *`,
+			[username, email, password]
+	),
+	return result.rows[0]
+};
+
+export const findUserByEmail = async (email) => {
+	const result = await pool.query(`SELECT * FROM users WHERE email = $1`, [email])
+	return result.rows[0]
+}
