@@ -12,3 +12,17 @@ export const authentification = async (req, res) => {
 		res.json(err);
 	}
 };
+
+export const login = async (req, res) => {
+	const { username, email, password } = req.body;
+	try {
+		const user = await findUserByEmail(email);
+		if (!user) return res.status(400).json({ message: "Incorrect username" });
+
+		const match = await bcrypt.compare(password, user.password);
+		if (!match) return res.status(400).json({ message: "Incorrect password" });
+		res.status(200).json("logged in");
+	} catch (err) {
+		res.json(err);
+	}
+};
