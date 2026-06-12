@@ -36,3 +36,11 @@ export const findUserByEmail = async (email) => {
 	]);
 	return result.rows[0];
 };
+
+export const updateUser = async (id, username) => {
+	const result = await pool.query(
+		`UPDATE users SET username = $1 WHERE id = $2 RETURNING *`,
+		[username, id],
+	);
+	return result.rows[0];
+};
