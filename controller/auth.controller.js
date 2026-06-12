@@ -1,4 +1,6 @@
 import bcrypt from "bcrypt";
+import pkg from "jsonwebtoken";
+const { sign } = pkg;
 import { createUser, findUserByEmail } from "../models/auth.model.js";
 
 export const authentification = async (req, res) => {
@@ -21,7 +23,17 @@ export const login = async (req, res) => {
 
 		const match = await bcrypt.compare(password, user.password);
 		if (!match) return res.status(400).json({ message: "Incorrect password" });
-		res.status(200).json("logged in");
+
+		const token = sign(
+			{
+				id: user.id,
+				username: user.username,
+				email: user.email,
+			},
+			process.env.JWT_SECRET,
+			{ expiresIn: "7d" },
+		);
+		res.status(200).json({ token });
 	} catch (err) {
 		res.json(err);
 	}
