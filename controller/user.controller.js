@@ -1,4 +1,4 @@
-import { updateUser } from "../models/auth.model.js";
+import { updateUser, deleteUser } from "../models/auth.model.js";
 
 export const getProfile = async (req, res) => {
 	const { id, username, email } = req.user;
@@ -20,6 +20,12 @@ export const update = async (req, res) => {
 	}
 };
 
-export const deleteUser = async (req, res) => {
-	
-}
+export const deleteId = async (req, res) => {
+	const userId = req.user.id;
+	try {
+		const result = await deleteUser(userId);
+		res.status(200).json({ message: "deleted successfully" });
+	} catch (err) {
+		res.json(err);
+	}
+};
