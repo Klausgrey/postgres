@@ -44,3 +44,11 @@ export const updateUser = async (id, username) => {
 	);
 	return result.rows[0];
 };
+
+export const deleteUser = async (id) => {
+	const result = await pool.query(
+		`DELETE FROM user WHERE id = $1 RETURNING *`,
+		[id],
+	);
+	return result.rows[0];
+};

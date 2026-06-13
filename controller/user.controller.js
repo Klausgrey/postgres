@@ -12,7 +12,6 @@ export const getProfile = async (req, res) => {
 export const update = async (req, res) => {
 	const username = req.body.username;
 	const userId = req.user.id;
-	console.log(typeof userId, userId)
 	try {
 		await updateUser(userId, username);
 		res.status(200).json({ message: "updated successfully" });
@@ -20,3 +19,7 @@ export const update = async (req, res) => {
 		res.json(err);
 	}
 };
+
+export const deleteUser = async (req, res) => {
+	
+}
