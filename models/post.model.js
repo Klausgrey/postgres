@@ -33,3 +33,16 @@ export const createPost = async (title, body, user_id) => {
 		console.error(err);
 	}
 };
+
+export const getAllPost = async () => {
+	try {
+		const result = await pool.query(
+			`
+			SELECT * FROM posts.*, user.username FROM posts JOIN users ON post.user_id = users.id
+			`,
+		);
+		return result.rows;
+	} catch (err) {
+		console.log(err);
+	}
+};
