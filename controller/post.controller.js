@@ -1,5 +1,6 @@
 import { getRounds } from "bcrypt";
 import { createPost, getAllPost } from "../models/post.model.js";
+import redis from "../config/redis.js";
 
 export const newPost = async (req, res) => {
 	const { title, body } = req.body;
@@ -15,8 +16,14 @@ export const newPost = async (req, res) => {
 
 export const getAll = async (req, res) => {
 	try {
-		const result = await getAllPost();
-		res.status(200).json({ result });
+		const cached = await redis.get("posts");
+		if (cached) {
+			res.status(200).json({ result: JSON.parse(cached) });
+		} else {
+			const result = await getAllPost();
+			redis.set("posts", JSON.stringify(result));
+			res.status(200).json({ result });
+		}
 	} catch (err) {
 		console.error(err);
 	}
