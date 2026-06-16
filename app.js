@@ -2,6 +2,7 @@ import express from "express";
 import authRouter from "./routes/auth.route.js";
 import userRouter from "./routes/user.route.js";
 import postRouter from "./routes/post.route.js";
+import "./config/redis.js";
 
 const app = express();
 app.use(express.json());

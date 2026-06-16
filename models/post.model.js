@@ -38,7 +38,7 @@ export const getAllPost = async () => {
 	try {
 		const result = await pool.query(
 			`
-			SELECT * FROM posts.*, user.username FROM posts JOIN users ON post.user_id = users.id
+			SELECT posts.*, users.username FROM posts JOIN users ON posts.user_id = users.id
 			`,
 		);
 		return result.rows;
