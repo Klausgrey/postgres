@@ -1,4 +1,3 @@
-import { getRounds } from "bcrypt";
 import { createPost, getAllPost } from "../models/post.model.js";
 import redis from "../config/redis.js";
 
