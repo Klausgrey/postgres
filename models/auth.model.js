@@ -16,8 +16,6 @@ export const createTable = async () => {
 		console.log("Table created");
 	} catch (err) {
 		console.error(err);
-		// } finally {
-		// 	await pool.end()
 	}
 };
 createTable();
